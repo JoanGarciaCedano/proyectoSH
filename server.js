@@ -121,7 +121,7 @@ io.sockets.on('connection', function(socket) {
     } else {
       sendData = 1;
     }
-  }, 1000);
+  }, 500);
 
   // Function for measuring temperature
   setInterval(function(){
@@ -145,7 +145,7 @@ io.sockets.on('connection', function(socket) {
       var date = new Date().getTime();
       socket.emit('cpuUsageUpdate', date, parseFloat(stdout));
     }
-  });}, 10000);
+  });}, 500);
 
 	// Uptime
   setInterval(function(){
@@ -155,7 +155,7 @@ io.sockets.on('connection', function(socket) {
 	    } else {
 	      socket.emit('uptime', stdout);
 	    }
-	  });}, 60000);
+	  });}, 500);
 
 // TOP list
   setInterval(function(){
@@ -165,5 +165,5 @@ io.sockets.on('connection', function(socket) {
 	    } else {
 	      socket.emit('toplist', stdout);
 	    }
-	  });}, 10000);
+	  });}, 500);
 });
