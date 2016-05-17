@@ -29,7 +29,7 @@
 <body>
 <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="container">
-          
+
   <div class="row marketing">
       <div class="col-lg-4">
         <div class="panel panel-primary">
@@ -51,11 +51,14 @@
   </div>
 
   <div class="row marketing">
-      <div class="col-lg-6">
+      <div class="col-lg-4">
         <div class="container" id="chart" style="width:100%; height:300px;"></div>
       </div>
-      <div class="col-lg-6">
+      <div class="col-lg-4">
         <div class="container" id="cpu_usage" style="width:100%; height:300px;"></div>
+      </div>
+      <div class="col-lg-4">
+        <div class="container" id="humtemp" style="width:100%; height:300px;"></div>
       </div>
   </div>
     <!-- Creo el div donde tendré la gráfica. Le digo que ocupe todo el ancho
@@ -63,14 +66,14 @@
 
     <!-- Comienza el Javascript -->
     <script>
-    // Creo un WebSocket. ¡Poned la IP de vuestra Raspberry Pi! 
+    // Creo un WebSocket. ¡Poned la IP de vuestra Raspberry Pi!
     var socket = io.connect('http://'+ location.host);
     // console.log(location.host)
     // Creo un nuevo objeto 'Chart'
-    var chart, chartCPU, chartMem, memTotal;
+    var chart, chartCPU, chartHumTemp, chartMem, memTotal;
     chart = new Highcharts.StockChart({
         chart: {
-            renderTo: 'chart', 
+            renderTo: 'chart',
             defaultSeriesType: 'spline',
             events: {
                 load: function() {
@@ -112,7 +115,7 @@
 
       chartCPU = new Highcharts.StockChart({
         chart: {
-            renderTo: 'cpu_usage', 
+            renderTo: 'cpu_usage',
             defaultSeriesType: 'spline',
             events: {
                 load: function() {
@@ -193,7 +196,7 @@
                         enabled: true
                     }
                 }
-            },            
+            },
             credits: {
                 enabled: false
             },
@@ -202,15 +205,68 @@
                 data: [{y: 0, color: 'red'}, {y: 0, color: 'green'}, {y: 0, color: 'blue'}, {y: 0, color: 'orange'}]
             }]
         });
+
+    chartHumTemp = new Highcharts.Chart({
+            chart: {
+                renderTo: 'humtemp',
+                type: 'bar',
+                events: {
+                load: function() {
+                    // Cada vez que reciba un valor desde el socket, lo meto en la gráfica
+                    socket.on('humiditytemp', function (humidity, temperature) {
+                        chartMem.series[0].setData([{y: humidity, color: 'red'}, {y: temperature, color: 'green'}]);
+                      });
+                    }
+                  }
+            },
+            title: {
+                text: 'Humedad y Temperatura'
+            },
+            xAxis: {
+                categories: ['Humedad', 'Temperature'],
+                title: {
+                    text: null
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: "Percentage",
+                    align: 'high'
+                },
+                labels: {
+                    overflow: 'justify'
+                }
+            },
+            tooltip: {
+                valueSuffix: ' %'
+            },
+            plotOptions: {
+                bar: {
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                name: "Memory",
+                data: [{y: 0, color: 'red'}, {y: 0, color: 'green'}]
+            }]
+        });
+
+
         socket.on('hostname', function (hname) {
           document.getElementById("p_hostname").innerHTML="<b>Hostname:</b> "+hname;
         });
         socket.on('kernel', function (ker) {
           document.getElementById("p_kernel").innerHTML="<b>Kernel:</b> "+ker;
-        }); 
+        });
         socket.on('uptime', function (uptime) {
           document.getElementById("p_uptime").innerHTML="<b>Up time:</b> "+ uptime;
-        }); 
+        });
         socket.on('toplist', function (toplist) {
             var res = toplist.split("\n");
             var result = "";
@@ -225,6 +281,6 @@
           chartMem.setTitle({text:"Memory: "+mem+" KB"});
           memTotal = mem;
         });
-    </script>   
+    </script>
 </body>
 </html>
