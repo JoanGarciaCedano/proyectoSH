@@ -4,7 +4,7 @@
   "description": "Raspberry Pi monitoring panel",
   "main": "server.js",
   "repository": "https://github.com/GeekyTheory/Raspberry-Pi-Status",
-  "author": "Mario Pérez Esteso <mario@geekytheory.com>",
+  "author": "Isaac-Joan",
   "dependencies": {
    "socket.io": "~0.9.14"
   }
