@@ -7,6 +7,7 @@ var app = require('http').createServer(handler).listen(port, "0.0.0.0"),
   io = require('socket.io').listen(app),
   fs = require('fs'),
   sys = require('util'),
+  sensorLib = require('node-dht-sensor'),
   exec = require('child_process').exec,
   child, child1;
   var connectCounter = 0;
@@ -35,6 +36,7 @@ io.sockets.on('connection', function(socket) {
   console.log("New connection from " + address.address + ":" + address.port);
   connectCounter++;
   console.log("NUMBER OF CONNECTIONS++: "+connectCounter);
+
   socket.on('disconnect', function() { connectCounter--;  console.log("NUMBER OF CONNECTIONS--: "+connectCounter);});
 
   // Function for checking memory
@@ -166,4 +168,28 @@ io.sockets.on('connection', function(socket) {
 	      socket.emit('toplist', stdout);
 	    }
 	  });}, 500);
+
+// Humidity
+  setInterval(function(){
+    var sensor = {
+      initialize: function (){
+        return sensorLib.initialize(11, 4);
+      },
+      readTemp: function (){
+        var readout = sensorLib.read();
+        return readout.temperature.toFixed(2);
+      }
+      readHum: function (){
+        var readout = sensorLib.read();
+        return readout.humidity.toFixed(2);
+      }
+
+    }
+
+    if(sensor.initialize()){
+      socket.emit('humiditytemp', sensor.readHum(), sensor.readTemp());
+    }else{
+      console.warn("mamó");
+    }
+  }, 500);
 });
