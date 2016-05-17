@@ -27,13 +27,13 @@ function handler(req, res) {
 }
 
 //Cuando abramos el navegador estableceremos una conexión con socket.io.
-//Cada X segundos mandaremos a la gráfica un nuevo valor. 
+//Cada X segundos mandaremos a la gráfica un nuevo valor.
 io.sockets.on('connection', function(socket) {
   var memTotal, memUsed = 0, memFree = 0, memBuffered = 0, memCached = 0, sendData = 1, percentBuffered, percentCached, percentUsed, percentFree;
   var address = socket.handshake.address;
 
   console.log("New connection from " + address.address + ":" + address.port);
-  connectCounter++; 
+  connectCounter++;
   console.log("NUMBER OF CONNECTIONS++: "+connectCounter);
   socket.on('disconnect', function() { connectCounter--;  console.log("NUMBER OF CONNECTIONS--: "+connectCounter);});
 
@@ -43,7 +43,7 @@ io.sockets.on('connection', function(socket) {
       console.log('exec error: ' + error);
     } else {
       memTotal = stdout;
-      socket.emit('memoryTotal', stdout); 
+      socket.emit('memoryTotal', stdout);
     }
   });
 
@@ -51,7 +51,7 @@ io.sockets.on('connection', function(socket) {
     if (error !== null) {
       console.log('exec error: ' + error);
     } else {
-      socket.emit('hostname', stdout); 
+      socket.emit('hostname', stdout);
     }
   });
 
@@ -59,7 +59,7 @@ io.sockets.on('connection', function(socket) {
     if (error !== null) {
       console.log('exec error: ' + error);
     } else {
-      socket.emit('uptime', stdout); 
+      socket.emit('uptime', stdout);
     }
   });
 
@@ -67,7 +67,7 @@ io.sockets.on('connection', function(socket) {
     if (error !== null) {
       console.log('exec error: ' + error);
     } else {
-      socket.emit('kernel', stdout); 
+      socket.emit('kernel', stdout);
     }
   });
 
@@ -75,10 +75,10 @@ io.sockets.on('connection', function(socket) {
 	    if (error !== null) {
 	      console.log('exec error: ' + error);
 	    } else {
-	      socket.emit('toplist', stdout); 
+	      socket.emit('toplist', stdout);
 	    }
 	  });
-    
+
 
   setInterval(function(){
     // Function for checking memory free and used
@@ -117,7 +117,7 @@ io.sockets.on('connection', function(socket) {
   });
 
     if (sendData == 1) {
-      socket.emit('memoryUpdate', percentFree, percentUsed, percentBuffered, percentCached); 
+      socket.emit('memoryUpdate', percentFree, percentUsed, percentBuffered, percentCached);
     } else {
       sendData = 1;
     }
@@ -132,7 +132,7 @@ io.sockets.on('connection', function(socket) {
       //Es necesario mandar el tiempo (eje X) y un valor de temperatura (eje Y).
       var date = new Date().getTime();
       var temp = parseFloat(stdout)/1000;
-      socket.emit('temperatureUpdate', date, temp); 
+      socket.emit('temperatureUpdate', date, temp);
     }
   });}, 500);
 
@@ -143,7 +143,7 @@ io.sockets.on('connection', function(socket) {
     } else {
       //Es necesario mandar el tiempo (eje X) y un valor de temperatura (eje Y).
       var date = new Date().getTime();
-      socket.emit('cpuUsageUpdate', date, parseFloat(stdout)); 
+      socket.emit('cpuUsageUpdate', date, parseFloat(stdout));
     }
   });}, 10000);
 
@@ -153,7 +153,7 @@ io.sockets.on('connection', function(socket) {
 	    if (error !== null) {
 	      console.log('exec error: ' + error);
 	    } else {
-	      socket.emit('uptime', stdout); 
+	      socket.emit('uptime', stdout);
 	    }
 	  });}, 60000);
 
@@ -163,7 +163,7 @@ io.sockets.on('connection', function(socket) {
 	    if (error !== null) {
 	      console.log('exec error: ' + error);
 	    } else {
-	      socket.emit('toplist', stdout); 
+	      socket.emit('toplist', stdout);
 	    }
 	  });}, 10000);
 });
