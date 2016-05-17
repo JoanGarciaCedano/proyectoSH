@@ -178,7 +178,7 @@ io.sockets.on('connection', function(socket) {
       readTemp: function (){
         var readout = sensorLib.read();
         return readout.temperature.toFixed(2);
-      }
+      },
       readHum: function (){
         var readout = sensorLib.read();
         return readout.humidity.toFixed(2);
