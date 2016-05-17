@@ -58,7 +58,7 @@
         <div class="container" id="cpu_usage" style="width:100%; height:300px;"></div>
       </div>
       <div class="col-lg-4">
-        <div class="container" id="humtemp" style="width:100%; height:300px;"></div>
+        <div class="container" id="ht" style="width:100%; height:300px;"></div>
       </div>
   </div>
     <!-- Creo el div donde tendré la gráfica. Le digo que ocupe todo el ancho
@@ -155,6 +155,63 @@
         }
     });
 
+    chartHumTemp = new Highcharts.Chart({
+            chart: {
+                renderTo: 'ht',
+                type: 'bar',
+                events: {
+                load: function() {
+                    // Cada vez que reciba un valor desde el socket, lo meto en la gráfica
+                    socket.on('humiditytemp', function (hum, temp) {
+                        chartHumTemp.series[0].setData([
+                          {y: hum, color: 'red'},
+                          {y: temp, color: 'green'},
+                        ]);
+                      });
+                    }
+                  }
+            },
+            title: {
+                text: 'Memory'
+            },
+            xAxis: {
+                categories: ['hum', 'temp'],
+                title: {
+                    text: null
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: "Percentage",
+                    align: 'high'
+                },
+                labels: {
+                    overflow: 'justify'
+                }
+            },
+            tooltip: {
+                valueSuffix: ' %'
+            },
+            plotOptions: {
+                bar: {
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                name: "Memory",
+                data: [
+                  {y: 0, color: 'red'},
+                  {y: 0, color: 'green'}
+                ]
+            }]
+        });
+
     chartMem = new Highcharts.Chart({
             chart: {
                 renderTo: 'chartMemory',
@@ -163,7 +220,12 @@
                 load: function() {
                     // Cada vez que reciba un valor desde el socket, lo meto en la gráfica
                     socket.on('memoryUpdate', function (free, used, buffered, cached) {
-                        chartMem.series[0].setData([{y: used, color: 'red'}, {y: free, color: 'green'}, {y: buffered, color: 'blue'}, {y: cached, color: 'orange'}]);
+                        chartMem.series[0].setData([
+                          {y: used, color: 'red'},
+                          {y: free, color: 'green'},
+                          {y: buffered, color: 'blue'},
+                          {y: cached, color: 'orange'}
+                        ]);
                       });
                     }
                   }
@@ -206,56 +268,7 @@
             }]
         });
 
-    chartHumTemp = new Highcharts.Chart({
-            chart: {
-                renderTo: 'humtemp',
-                type: 'bar',
-                events: {
-                load: function() {
-                    // Cada vez que reciba un valor desde el socket, lo meto en la gráfica
-                    socket.on('humiditytemp', function (humidity, temperature) {
-                        chartHumTemp.series[0].setData([{y: humidity, color: 'red'}, {y: temperature, color: 'green'}]);
-                      });
-                    }
-                  }
-            },
-            title: {
-                text: 'Humedad y Temperatura'
-            },
-            xAxis: {
-                categories: ['Humedad', 'Temperature'],
-                title: {
-                    text: null
-                }
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: "Percentage",
-                    align: 'high'
-                },
-                labels: {
-                    overflow: 'justify'
-                }
-            },
-            tooltip: {
-                valueSuffix: ' %'
-            },
-            plotOptions: {
-                bar: {
-                    dataLabels: {
-                        enabled: true
-                    }
-                }
-            },
-            credits: {
-                enabled: false
-            },
-            series: [{
-                name: "Memory",
-                data: [{y: 0, color: 'red'}, {y: 0, color: 'green'}]
-            }]
-        });
+
 
 
         socket.on('hostname', function (hname) {
