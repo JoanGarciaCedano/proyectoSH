@@ -214,7 +214,7 @@
                 load: function() {
                     // Cada vez que reciba un valor desde el socket, lo meto en la gráfica
                     socket.on('humiditytemp', function (humidity, temperature) {
-                        chartMem.series[0].setData([{y: humidity, color: 'red'}, {y: temperature, color: 'green'}]);
+                        chartHumTemp.series[0].setData([{y: humidity, color: 'red'}, {y: temperature, color: 'green'}]);
                       });
                     }
                   }
