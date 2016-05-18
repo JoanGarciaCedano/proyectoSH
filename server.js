@@ -194,5 +194,5 @@ io.sockets.on('connection', function(socket) {
     }else{
       console.warn("mamó");
     }
-  }, 1000);
+  }, 5000);
 });
