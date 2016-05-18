@@ -124,7 +124,7 @@ io.sockets.on('connection', function(socket) {
     } else {
       sendData = 1;
     }
-  }, 1000);
+  }, 3000);
 
   // Function for measuring temperature
   setInterval(function(){
@@ -137,7 +137,7 @@ io.sockets.on('connection', function(socket) {
       var temp = parseFloat(stdout)/1000;
       socket.emit('temperatureUpdate', date, temp);
     }
-  });}, 1000);
+  });}, 2000);
 
   setInterval(function(){
     child = exec("top -d 0.5 -b -n2 | grep 'Cpu(s)'|tail -n 1 | awk '{print $2 + $4}'", function (error, stdout, stderr) {
@@ -148,7 +148,7 @@ io.sockets.on('connection', function(socket) {
       var date = new Date().getTime();
       socket.emit('cpuUsageUpdate', date, parseFloat(stdout));
     }
-  });}, 1000);
+  });}, 2000);
 
 	// Uptime
   setInterval(function(){
