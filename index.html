@@ -33,6 +33,7 @@
           <div class="panel-body"><p  id="p_hostname">Info de la rasp</p>
             <p  id="p_kernel"></p>
             <p  id="p_uptime"></p>
+            <p  id="g"></p>
             <div>
                 <b>Procesos Top:</b>
                 <ol id="toplist">
@@ -299,7 +300,9 @@
         });
 
 
-
+        socket.on('gas', function(value, time){
+          document.getElementById("g").innerHTML = "<b>Hay fuga de gas? : " + (value == true)? "si": "no";
+        });
 
         socket.on('hostname', function (hname) {
           document.getElementById("p_hostname").innerHTML="<b>Nombre de la rasp:</b> "+hname;

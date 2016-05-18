@@ -9,9 +9,10 @@ var app = require('http').createServer(handler).listen(port, "0.0.0.0"),
   sys = require('util'),
   sensorLib = require('node-dht-sensor'),
   exec = require('child_process').exec,
+  gpio = require('rpi-gpio'),
   child, child1;
 
-  var connectCounter = 0;
+var connectCounter = 0;
 //Escuchamos en el puerto $port
 app.listen(port);
 //Si todo va bien al abrir el navegador, cargaremos el archivo index.html
@@ -193,5 +194,12 @@ var sensor = {
 };
 sensor.read();
 }, 2000);
+
+gpio.on('change', function(channel, value){
+    var date = new Date().getTime();
+    socket.emit('gas', value, date);
+});
+
+gpio.setup(8, gpio.DIR_IN, gpio.EDGE_FALLING);
 
 });
