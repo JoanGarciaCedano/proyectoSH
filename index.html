@@ -261,7 +261,7 @@
                   }
             },
             title: {
-                text: 'Memory'
+                text: 'Memoria '
             },
             xAxis: {
                 categories: ['Used', 'Free', 'Buffered', 'Cached'],
@@ -272,7 +272,7 @@
             yAxis: {
                 min: 0,
                 title: {
-                    text: "Percentage",
+                    text: "Porcentaje",
                     align: 'high'
                 },
                 labels: {
@@ -293,7 +293,7 @@
                 enabled: false
             },
             series: [{
-                name: "Memory",
+                name: "Memoria",
                 data: [{y: 0, color: 'red'}, {y: 0, color: 'green'}, {y: 0, color: 'blue'}, {y: 0, color: 'orange'}]
             }]
         });
@@ -302,7 +302,7 @@
 
 
         socket.on('hostname', function (hname) {
-          document.getElementById("p_hostname").innerHTML="<b>Hostname:</b> "+hname;
+          document.getElementById("p_hostname").innerHTML="<b>Nombre de la rasp:</b> "+hname;
         });
         socket.on('kernel', function (ker) {
           document.getElementById("p_kernel").innerHTML="<b>Kernel:</b> "+ker;
