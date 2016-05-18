@@ -188,7 +188,9 @@ io.sockets.on('connection', function(socket) {
     }
 
     if(sensor.initialize()){
-      socket.emit('humiditytemp', sensor.readHum(), sensor.readTemp());
+      var date = new Date().getTime();
+      socket.emit('humedad', sensor.readHum(), date);
+      socket.emit('temperatura', sensor.readTemp(), date);
     }else{
       console.warn("mamó");
     }

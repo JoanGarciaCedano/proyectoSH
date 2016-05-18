@@ -58,6 +58,15 @@
         <div class="container" id="cpu_usage" style="width:100%; height:300px;"></div>
       </div>
   </div>
+
+  <div class="row marketing">
+      <div class="col-lg-6">
+        <div class="container" id="h" style="width:100%; height:300px;"></div>
+      </div>
+      <div class="col-lg-6">
+        <div class="container" id="t" style="width:100%; height:300px;"></div>
+      </div>
+  </div>
     <!-- Creo el div donde tendré la gráfica. Le digo que ocupe todo el ancho
          de la pantalla y 400px de alto -->
 
@@ -67,7 +76,8 @@
     var socket = io.connect('http://'+ location.host);
     // console.log(location.host)
     // Creo un nuevo objeto 'Chart'
-    var chart, chartCPU, chartHumTemp, chartMem, memTotal;
+    var chart, chartCPU, chartHum, chartTemp, chartMem, memTotal;
+
     chart = new Highcharts.StockChart({
         chart: {
             renderTo: 'chart',
@@ -145,6 +155,48 @@
         },
         series: [{
             name: 'CPU Load',
+            data: []
+        }],
+        credits: {
+                enabled: false
+        }
+    });
+
+      chartHum = new Highcharts.StockChart({
+        chart: {
+            renderTo: 'h',
+            defaultSeriesType: 'spline',
+            events: {
+                load: function() {
+                    // Cada vez que reciba un valor desde el socket, lo meto en la gráfica
+                    socket.on('humedad', function (data, time) {
+                        var series = chartHum.series[0];
+                        series.addPoint([time, data]);
+                    });
+                }
+            }
+        },
+        rangeSelector : {
+            selected : 100
+        },
+        title: {
+            text: 'CPU Load Raspberry Pi'
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150,
+            maxZoom: 20 * 1000
+        },
+        yAxis: {
+            minPadding: 0.2,
+            maxPadding: 0.2,
+            title: {
+                text: 'Temperatura de la Jaus',
+                margin: 10
+            }
+        },
+        series: [{
+            name: 'Temperatura',
             data: []
         }],
         credits: {
