@@ -1,13 +1,9 @@
-<!--
-    Autor: Mario Pérez Esteso <mario@geekytheory.com>
-    Web: geekytheory.com
--->
 <html class="no-js" lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>
-		Raspberry Pi Status
+		Rasp Status
 	</title>
     <!-- Importo el módulo socket.io que tengo en el proyecto -->
     <script src="/socket.io/socket.io.js"></script>
@@ -33,12 +29,12 @@
   <div class="row marketing">
       <div class="col-lg-4">
         <div class="panel panel-primary">
-          <div class="panel-heading">General info</div>
-          <div class="panel-body"><p  id="p_hostname">Here you can see the general info of the Raspberry Pi</p>
+          <div class="panel-heading">info gral</div>
+          <div class="panel-body"><p  id="p_hostname">Info de la rasp</p>
             <p  id="p_kernel"></p>
             <p  id="p_uptime"></p>
             <div>
-                <b>Top list:</b>
+                <b>Procesos Top:</b>
                 <ol id="toplist">
                 </ol>
             </div>
@@ -96,7 +92,7 @@
             selected : 100
         },
         title: {
-            text: 'CPU Temperature Raspberry Pi'
+            text: 'Temp de Rasp'
         },
         xAxis: {
             type: 'datetime',
@@ -107,12 +103,12 @@
             minPadding: 0.2,
             maxPadding: 0.2,
             title: {
-                text: 'Temperature ºC',
+                text: 'Temperatura de Rasp ºC',
                 margin: 10
             }
         },
         series: [{
-            name: 'Temperature',
+            name: 'Temperatura de Rasp',
             data: []
         }],
         credits: {
@@ -138,7 +134,7 @@
             selected : 100
         },
         title: {
-            text: 'CPU Load Raspberry Pi'
+            text: 'CPU de Rasp'
         },
         xAxis: {
             type: 'datetime',
@@ -149,12 +145,12 @@
             minPadding: 0.2,
             maxPadding: 0.2,
             title: {
-                text: 'CPU Load (%)',
+                text: 'CPU(%)',
                 margin: 10
             }
         },
         series: [{
-            name: 'CPU Load',
+            name: 'CPU',
             data: []
         }],
         credits: {
@@ -180,7 +176,7 @@
             selected : 100
         },
         title: {
-            text: 'CPU Load Raspberry Pi'
+            text: 'Humedad de la casita'
         },
         xAxis: {
             type: 'datetime',
@@ -211,7 +207,7 @@
             events: {
                 load: function() {
                     // Cada vez que reciba un valor desde el socket, lo meto en la gráfica
-                    socket.on('humedad', function (data, time) {
+                    socket.on('temperatura', function (data, time) {
                         var series = chartTemp.series[0];
                         series.addPoint([time, data]);
                     });
@@ -222,7 +218,7 @@
             selected : 100
         },
         title: {
-            text: 'CPU Load Raspberry Pi'
+            text: 'Temperatura de la Casita'
         },
         xAxis: {
             type: 'datetime',
