@@ -187,9 +187,12 @@ io.sockets.on('connection', function(socket) {
 
     }
 
-    var date = new Date().getTime();
-    socket.emit('humedad', parseFloat(sensor.readHum()), date);
-    socket.emit('temperatura', parseFloat(sensor.readTemp()), date);
-    
+    if(sensor.initialize()){
+      var date = new Date().getTime();
+      socket.emit('humedad', parseFloat(sensor.readHum()), date);
+      socket.emit('temperatura', parseFloat(sensor.readTemp()), date);
+    }else{
+      console.warn("mamó");
+    }
   }, 1000);
 });
