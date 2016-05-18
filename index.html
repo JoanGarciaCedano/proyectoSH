@@ -191,6 +191,48 @@
             minPadding: 0.2,
             maxPadding: 0.2,
             title: {
+                text: 'Humedad de la Jaus',
+                margin: 10
+            }
+        },
+        series: [{
+            name: 'Humedad',
+            data: []
+        }],
+        credits: {
+                enabled: false
+        }
+    });
+
+      chartTemp = new Highcharts.StockChart({
+        chart: {
+            renderTo: 't',
+            defaultSeriesType: 'spline',
+            events: {
+                load: function() {
+                    // Cada vez que reciba un valor desde el socket, lo meto en la gráfica
+                    socket.on('humedad', function (data, time) {
+                        var series = chartTemp.series[0];
+                        series.addPoint([time, data]);
+                    });
+                }
+            }
+        },
+        rangeSelector : {
+            selected : 100
+        },
+        title: {
+            text: 'CPU Load Raspberry Pi'
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150,
+            maxZoom: 20 * 1000
+        },
+        yAxis: {
+            minPadding: 0.2,
+            maxPadding: 0.2,
+            title: {
                 text: 'Temperatura de la Jaus',
                 margin: 10
             }
