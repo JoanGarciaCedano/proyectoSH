@@ -129,7 +129,7 @@
                     // Cada vez que reciba un valor desde el socket, lo meto en la gráfica
                     socket.on('cpuUsageUpdate', function (time, data) {
                         var series = chartCPU.series[0];
-                        series.addPoint([time, data]);
+                        series.addPoint([time, parseFloat(data)]);
                     });
                 }
             }
