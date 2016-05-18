@@ -195,13 +195,15 @@ var sensor = {
 sensor.read();
 }, 2000);
 
-gpio.on('change', function(channel, value){
-    var date = new Date().getTime();
-    if(channel == 8){
-      socket.emit('gas', value, date);
-    }
-});
+  setInterval(function(){
+    gpio.setup(8, gpio.DIR_IN, readInput);
 
-gpio.setup(8, gpio.DIR_IN, gpio.EDGE_FALLING);
+    function readInput(){
+      gpio.read(8, function(err, value){
+        var date = new Date().getTime();
+        socket.emit('gas', value, date);
+      });
+    }
+  }, 2000);
 
 });
