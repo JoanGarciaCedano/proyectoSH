@@ -10,6 +10,7 @@ var app = require('http').createServer(handler).listen(port, "0.0.0.0"),
   sensorLib = require('node-dht-sensor'),
   exec = require('child_process').exec,
   child, child1;
+
   var connectCounter = 0;
 //Escuchamos en el puerto $port
 app.listen(port);
@@ -157,7 +158,7 @@ io.sockets.on('connection', function(socket) {
 	    } else {
 	      socket.emit('uptime', stdout);
 	    }
-	  });}, 1000);
+	  });}, 5000);
 
 // TOP list
   setInterval(function(){
@@ -167,7 +168,7 @@ io.sockets.on('connection', function(socket) {
 	    } else {
 	      socket.emit('toplist', stdout);
 	    }
-	  });}, 500);
+	  });}, 5000);
 
 // Humidity
   setInterval(function(){
@@ -191,5 +192,5 @@ io.sockets.on('connection', function(socket) {
     }else{
       console.warn("mamó");
     }
-  }, 500);
+  }, 1000);
 });
