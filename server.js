@@ -184,10 +184,10 @@ var sensor = {
       for (var a in this.sensors) {
           var b = sensorLib.readSpec(this.sensors[a].type, this.sensors[a].pin);
           var date = new Date().getTime();
-          temp = parseFloat(b.temperature.toFixed(2)) * 1000
-          hum = parseFloat(b.humidity.toFixed(2)) * 1000
-          socket.emit('temperatura', parseInt(temp), date);
-          socket.emit('humedad', parseInt(hum), date);
+          temp = parseFloat(b.temperature.toFixed(2));
+          hum = parseFloat(b.humidity.toFixed(2));
+          socket.emit('temperatura', temp, date);
+          socket.emit('humedad', hum, date);
       }
   }
 };
