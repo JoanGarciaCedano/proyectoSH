@@ -172,6 +172,7 @@ io.sockets.on('connection', function(socket) {
 
 
 // Humidity
+setInterval(function(){
 var sensor = {
   sensors: [ {
       name: "Indoor",
@@ -188,6 +189,7 @@ var sensor = {
       }
   }
 };
-  setInterval(sensor.read(), 5000);
+sensor.read();
+}, 5000);
 
 });
