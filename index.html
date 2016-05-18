@@ -152,63 +152,6 @@
         }
     });
 
-    chartHumTemp = new Highcharts.Chart({
-            chart: {
-                renderTo: 'ht',
-                type: 'spline',
-                events: {
-                load: function() {
-                    // Cada vez que reciba un valor desde el socket, lo meto en la gráfica
-                    socket.on('humiditytemp', function (hum, temp) {
-                        chartHumTemp.series[0].setData([
-                          {y: hum, color: 'red'},
-                          {y: temp, color: 'green'}
-                        ]);
-                      });
-                    }
-                  }
-            },
-            title: {
-                text: 'Humedad y temperatura'
-            },
-            xAxis: {
-                categories: ['hum', 'temp'],
-                title: {
-                    text: null
-                }
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: "Percentage",
-                    align: 'high'
-                },
-                labels: {
-                    overflow: 'justify'
-                }
-            },
-            tooltip: {
-                valueSuffix: ' %'
-            },
-            plotOptions: {
-                bar: {
-                    dataLabels: {
-                        enabled: true
-                    }
-                }
-            },
-            credits: {
-                enabled: false
-            },
-            series: [{
-                name: "Humedad y temperatura",
-                data: [
-                  {y: 100, color: 'red'},
-                  {y: 100, color: 'green'}
-                ]
-            }]
-        });
-
     chartMem = new Highcharts.Chart({
             chart: {
                 renderTo: 'chartMemory',
