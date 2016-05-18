@@ -49,9 +49,6 @@
         <div id="chartMemory" style="min-width: 100; height:250px; margin: 0 auto"></div>
       </div>
   </div>
-      <div class="col-lg-8">
-        <div id="chartMemory" style="min-width: 100; height:250px; margin: 0 auto"></div>
-      </div>
 
   <div class="row marketing">
       <div class="col-lg-6">
@@ -155,6 +152,63 @@
         }
     });
 
+    chartHumTemp = new Highcharts.Chart({
+            chart: {
+                renderTo: 'ht',
+                type: 'spline',
+                events: {
+                load: function() {
+                    // Cada vez que reciba un valor desde el socket, lo meto en la gráfica
+                    socket.on('humiditytemp', function (hum, temp) {
+                        chartHumTemp.series[0].setData([
+                          {y: hum, color: 'red'},
+                          {y: temp, color: 'green'}
+                        ]);
+                      });
+                    }
+                  }
+            },
+            title: {
+                text: 'Humedad y temperatura'
+            },
+            xAxis: {
+                categories: ['hum', 'temp'],
+                title: {
+                    text: null
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: "Percentage",
+                    align: 'high'
+                },
+                labels: {
+                    overflow: 'justify'
+                }
+            },
+            tooltip: {
+                valueSuffix: ' %'
+            },
+            plotOptions: {
+                bar: {
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                name: "Humedad y temperatura",
+                data: [
+                  {y: 100, color: 'red'},
+                  {y: 100, color: 'green'}
+                ]
+            }]
+        });
+
     chartMem = new Highcharts.Chart({
             chart: {
                 renderTo: 'chartMemory',
@@ -170,7 +224,8 @@
                           {y: cached, color: 'orange'}
                         ]);
                       });
-
+                    }
+                  }
             },
             title: {
                 text: 'Memory'
@@ -206,12 +261,7 @@
             },
             series: [{
                 name: "Memory",
-                data: [
-                  {y: 0, color: 'red'},
-                  {y: 0, color: 'green'},
-                  {y: 0, color: 'blue'},
-                  {y: 0, color: 'orange'}
-                ]
+                data: [{y: 0, color: 'red'}, {y: 0, color: 'green'}, {y: 0, color: 'blue'}, {y: 0, color: 'orange'}]
             }]
         });
 
@@ -237,12 +287,10 @@
             }
             document.getElementById("toplist").innerHTML=result;
         });
-
         socket.on('memoryTotal', function (mem) {
           chartMem.setTitle({text:"Memory: "+mem+" KB"});
           memTotal = mem;
         });
-
     </script>
 </body>
 </html>
