@@ -186,7 +186,6 @@ var sensor = {
           socket.emit('humedad', parseFloat(b.temperature.toFixed(2), date));
           socket.emit('temperatura', parseFloat(b.humidity.toFixed(2), date));
       }
-      sensor.read();
   }
 };
   setInterval(sensor.read(), 5000);
