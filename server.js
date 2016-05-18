@@ -197,7 +197,9 @@ sensor.read();
 
 gpio.on('change', function(channel, value){
     var date = new Date().getTime();
-    socket.emit('gas', value, date);
+    if(channel == 8){
+      socket.emit('gas', value, date);
+    }
 });
 
 gpio.setup(8, gpio.DIR_IN, gpio.EDGE_FALLING);
