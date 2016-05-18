@@ -170,29 +170,27 @@ io.sockets.on('connection', function(socket) {
 	    }
 	  });}, 5000);
 
+
 // Humidity
-  setInterval(function(){
-    var sensor = {
-      initialize: function (){
-        return sensorLib.initialize(11, 4);
-      },
-      readTemp: function (){
-        var readout = sensorLib.read();
-        return readout.temperature.toFixed(2);
-      },
-      readHum: function (){
-        var readout = sensorLib.read();
-        return readout.humidity.toFixed(2);
+var sensor = {
+  sensors: [ {
+      name: "Indoor",
+      type: 11,
+      pin: 4
+  }],
+
+  read: function() {
+      for (var a in this.sensors) {
+          var b = sensorLib.readSpec(this.sensors[a].type, this.sensors[a].pin);
+          var date = new Date().getTime();
+          socket.emit('humedad', parseFloat(b.temperature.toFixed(2), date);
+          socket.emit('temperatura', parseFloat(b.humidity.toFixed(2)), date);
       }
+      setTimeout(function() {
+          sensor.read();
+      }, 2000);
+  }
+};
+  setInterval(sensor.read(), 5000);
 
-    }
-
-    if(sensor.initialize()){
-      var date = new Date().getTime();
-      socket.emit('humedad', parseFloat(sensor.readHum()), date);
-      socket.emit('temperatura', parseFloat(sensor.readTemp()), date);
-    }else{
-      console.warn("mamó");
-    }
-  }, 5000);
 });
