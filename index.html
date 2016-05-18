@@ -301,7 +301,7 @@
 
 
         socket.on('gas', function(value, time){
-          document.getElementById("g").innerHTML = "<b>Hay fuga de gas? : " + (value == true)? "si": "no";
+          document.getElementById("g").innerHTML = "Hay fuga de gas? : " + (value == true)? "si": "no";
         });
 
         socket.on('hostname', function (hname) {
