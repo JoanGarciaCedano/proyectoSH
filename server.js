@@ -192,47 +192,6 @@ sensor.read();
 }, 2000);
 
 setInterval(function(){
-  var initSensor = function (config) {
-    var sensor = usonic.createSensor(config.echoPin, config.triggerPin, config.timeout);
-
-    console.log('Config: ' + JSON.stringify(config));
-
-    var distances;
-
-    (function measure() {
-        if (!distances || distances.length === config.rate) {
-            if (distances) {
-              var distance = statistics.median(distances);
-              var date = new Date().getTime();
-              socket.emit('proximidad', distance, date);
-            }
-
-            distances = [];
-        }
-
-        setTimeout(function () {
-            distances.push(sensor());
-            measure();
-        }, config.delay);
-    }());
-  };
-
-  usonic.init(function (error) {
-      if (error) {
-          console.log(error);
-      } else {
-          initSensor({
-              echoPin: 18,
-              triggerPin: 17,
-              timeout: 1000,
-              delay: 60,
-              rate: 5
-          });
-      }
-  });
-}, 2000);
-
-setInterval(function(){
   gpio.setup(8, gpio.DIR_IN, readInput);
 
   function readInput(){
