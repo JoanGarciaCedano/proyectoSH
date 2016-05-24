@@ -6,6 +6,7 @@
   "repository": "https://github.com/GeekyTheory/Raspberry-Pi-Status",
   "author": "Isaac-Joan",
   "dependencies": {
-   "socket.io": "~0.9.14"
+    "r-pi-usonic": "^2.5.0",
+    "socket.io": "~0.9.14"
   }
 }
