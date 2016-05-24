@@ -64,11 +64,6 @@
         <div class="container" id="t" style="width:100%; height:300px;"></div>
       </div>
   </div>
-  <div class="row marketing">
-      <div class="col-lg-12">
-        <div class="container" id="p" style="width:100%; height:300px;"></div>
-      </div>
-  </div>
     <!-- Creo el div donde tendré la gráfica. Le digo que ocupe todo el ancho
          de la pantalla y 400px de alto -->
 
@@ -80,48 +75,7 @@
     // Creo un nuevo objeto 'Chart'
     var chart, chartCPU, chartHum, chartTemp, chartMem, memTotal, chartProx;
 
-    chartProx = new Highcharts.StockChart({
-      chart:{
-        renderTo: 'p',
-        defaultSeriesType: 'spline',
-        events: {
-          load: function(){
-            socket.on('humedad', function(data, time){
-              var series = chart.series[0];
-              series.addPoint([time, data]);
-            });
-          }
-        }
-        rangeSelector : {
-            selected : 100
-        },
-        title: {
-            text: 'Distancia'
-        },
-        xAxis: {
-            type: 'datetime',
-            tickPixelInterval: 150,
-            maxZoom: 20 * 1000
-        },
-        yAxis: {
-            minPadding: 0.2,
-            maxPadding: 0.2,
-            title: {
-                text: 'Distancia',
-                margin: 10
-            }
-        },
-        series: [{
-            name: 'Distancia',
-            data: []
-        }],
-        credits: {
-                enabled: false
-        }
-
-      }
-    });
-
+    
     chart = new Highcharts.StockChart({
         chart: {
             renderTo: 'chart',
