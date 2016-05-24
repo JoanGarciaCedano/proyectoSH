@@ -8,18 +8,23 @@
     <!-- Importo el módulo socket.io que tengo en el proyecto -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="/js/jquery-1.12.4.min.js"></script>
     <!-- Importo el archivo Javascript de Highcharts directamente desde su servidor -->
     <!--<script src="http://code.highcharts.com/highcharts.js" type="application/javascript"></script>-->
     <script src="http://code.highcharts.com/stock/highstock.js"></script>
+    <script src="/js/highstock.js"></script>
     <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-
+<link rel="stylesheet" href="/css/bootstrap-min.css">
 <!-- Optional theme -->
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="/css/bootstrap-theme.min.css">
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
+<script src="/js/exporting.js"></script>
 
 </head>
 <body>
@@ -75,7 +80,7 @@
     // Creo un nuevo objeto 'Chart'
     var chart, chartCPU, chartHum, chartTemp, chartMem, memTotal, chartProx;
 
-    
+
     chart = new Highcharts.StockChart({
         chart: {
             renderTo: 'chart',
