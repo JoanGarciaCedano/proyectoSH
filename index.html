@@ -57,14 +57,11 @@
   </div>
 
   <div class="row marketing">
-      <div class="col-lg-4">
+      <div class="col-lg-6">
         <div class="container" id="h" style="width:100%; height:300px;"></div>
       </div>
-      <div class="col-lg-4">
+      <div class="col-lg-6">
         <div class="container" id="t" style="width:100%; height:300px;"></div>
-      </div>
-      <div class="col-lg-4">
-        <div class="container" id="p" style="width:100%; height:300px;"></div>
       </div>
   </div>
     <!-- Creo el div donde tendré la gráfica. Le digo que ocupe todo el ancho
@@ -76,49 +73,7 @@
     var socket = io.connect('http://'+ location.host);
     // console.log(location.host)
     // Creo un nuevo objeto 'Chart'
-    var chart, chartCPU, chartHum, chartTemp, chartMem, memTotal, chartProx;
-
-    chartProx = new Highcharts.StockChart({
-      chart:{
-        renderTo: 'p',
-        defaultSeriesType: 'spline',
-        events: {
-          load: function(){
-            socket.on('proximidad', function(data, time){
-              var series = chart.series[0];
-              series.addPoint([time, data]);
-            });
-          }
-        }
-        rangeSelector : {
-            selected : 100
-        },
-        title: {
-            text: 'Distancia'
-        },
-        xAxis: {
-            type: 'datetime',
-            tickPixelInterval: 150,
-            maxZoom: 20 * 1000
-        },
-        yAxis: {
-            minPadding: 0.2,
-            maxPadding: 0.2,
-            title: {
-                text: 'Distancia',
-                margin: 10
-            }
-        },
-        series: [{
-            name: 'Distancia',
-            data: []
-        }],
-        credits: {
-                enabled: false
-        }
-
-      }
-    });
+    var chart, chartCPU, chartHum, chartTemp, chartMem, memTotal;
 
     chart = new Highcharts.StockChart({
         chart: {
