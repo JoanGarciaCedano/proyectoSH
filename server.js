@@ -6,8 +6,6 @@ var app = require('http').createServer(handler).listen(port, "0.0.0.0"),
   sensorLib = require('node-dht-sensor'),
   exec = require('child_process').exec,
   gpio = require('rpi-gpio'),
-  usonic = require('./node_modules/r-pi-usonic/lib/usonic.js'),
-  statistics = require('math-statistics'),
   child, child1;
 
 var connectCounter = 0;
