@@ -1,7 +1,3 @@
-/**
- * Autor: Mario Pérez Esteso <mario@geekytheory.com>
- * Web: geekytheory.com
- */
 var port = 8000;
 var app = require('http').createServer(handler).listen(port, "0.0.0.0"),
   io = require('socket.io').listen(app),
@@ -10,6 +6,7 @@ var app = require('http').createServer(handler).listen(port, "0.0.0.0"),
   sensorLib = require('node-dht-sensor'),
   exec = require('child_process').exec,
   gpio = require('rpi-gpio'),
+  usonic = require('./node_modules/r-pi-usonic/lib/usonic.js'),
   child, child1;
 
 var connectCounter = 0;
@@ -195,15 +192,56 @@ var sensor = {
 sensor.read();
 }, 2000);
 
-  setInterval(function(){
-    gpio.setup(8, gpio.DIR_IN, readInput);
+setInterval(function(){
+  var initSensor = function (config) {
+    var sensor = usonic.createSensor(config.echoPin, config.triggerPin, config.timeout);
 
-    function readInput(){
-      gpio.read(8, function(err, value){
-        var date = new Date().getTime();
-        socket.emit('gas', value, date);
-      });
-    }
-  }, 2000);
+    console.log('Config: ' + JSON.stringify(config));
+
+    var distances;
+
+    (function measure() {
+        if (!distances || distances.length === config.rate) {
+            if (distances) {
+              var distance = statistics.median(distances);
+              var date = new Date().getTime();
+              socket.emit('proximidad', distance, date);
+            }
+
+            distances = [];
+        }
+
+        setTimeout(function () {
+            distances.push(sensor());
+            measure();
+        }, config.delay);
+    }());
+  };
+
+  usonic.init(function (error) {
+      if (error) {
+          console.log(error);
+      } else {
+          initSensor({
+              echoPin: 18,
+              triggerPin: 17,
+              timeout: 1000,
+              delay: 60,
+              rate: 5
+          });
+      }
+  });
+});
+
+setInterval(function(){
+  gpio.setup(8, gpio.DIR_IN, readInput);
+
+  function readInput(){
+    gpio.read(8, function(err, value){
+      var date = new Date().getTime();
+      socket.emit('gas', value, date);
+    });
+  }
+}, 2000);
 
 });
