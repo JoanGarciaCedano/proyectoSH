@@ -84,7 +84,7 @@
         defaultSeriesType: 'spline',
         events: {
           load: function(){
-            socket.on('proximidad', function(data, time){
+            socket.on('humedad', function(data, time){
               var series = chart.series[0];
               series.addPoint([time, data]);
             });
